@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AndroMote</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel ="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse bg-dark">
+        <a class="navbar-brand" href="#">AndroMote</a>
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a id="available-drones" class="dropdown-toggle" data-toggle="dropdown" href="#">Available Drones   <img src="/img/network.png"/>
+            <span class="caret"></span></a>
+            <ul id="ip-list" class="dropdown-menu">
+            </ul>
+          </li>
+          <li ><a id="ip-header" href="#"></a><li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row bg-light">
+            <div class="data-table col-lg-offset-1 col-lg-4">
+				<div class="measurement-wrapper">
+                <h3 id="measurement">Measurement</h3> 
+				<div id="settings-button" class="btn-group" role="group" aria-label="...">
+				
+				<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+      <span class="caret"></span>
+    </button>
+	<ul class="dropdown-menu" id="parameter-list">
+
+	</ul>
+	</div>
+	
+	<span id="minimalize-btn" class="glyphicon glyphicon-chevron-up minimalize-btn"></span>
+	
+	</div>
+                <table id="measurement-table" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Parameter</th>
+                            <th scope="col">Value</th>
+							<th scope="col">Chart</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-table">
+                        <tr>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/js/jquery-3.2.1.min.js"></script>
+      <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/index.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+</body>
+
+</html>
