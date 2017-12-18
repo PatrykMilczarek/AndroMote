@@ -1,8 +1,10 @@
 var global_ip_array = [];
+var global_parameter_array = [];
 ////////////////////////////////////////////////////////////////////////////////
 var lineChart = {};
 var global_data_object = {};
 var interval_data;
+var new_interval = 3000;
 var createChart = function (canvasID) {
 //console.log(canvasID);
 var canvas = document.getElementById(canvasID);
@@ -10,7 +12,7 @@ var data = {
     labels: [],
     datasets: [
         {
-            label: " ",
+            label: canvasID,
             fill: false,
             lineTension: 0.1,
             backgroundColor: "rgba(255, 0, 0, 0.2)",
@@ -63,7 +65,7 @@ function adddata(value,dataName){
   var seconds = Math.floor(time / 1000);
   
   lineChart[dataName].data.datasets[0].data.push(value);
-  lineChart[dataName].data.datasets[0].label = dataName;						
+ // lineChart[dataName].data.datasets[0].label = dataName;						
   lineChart[dataName].data.labels.push(seconds);
   lineChart[dataName].update();
 
@@ -165,20 +167,17 @@ var printChildren = function(tempOptions, option) {
 
 }*/
 
-var  createCanvas = function (canvasID) {
+var createCanvas = function (canvasID) {
 
 	var newCanvas = document.createElement("canvas");
 
 
 	newCanvas.setAttribute("id",canvasID);
-	newCanvas.setAttribute("height","300");
-	newCanvas.setAttribute("width","900");
+
 
 	//newButton.setAttribute("style","font-size:12px;background-color: #4CAF50");
 
-	document.getElementById('chart').appendChild(newCanvas);
-
-
+	return newCanvas;
 }
 //funkcja do automatycznego tworzenia wykresow po przycisnieciu przycisku
 var buttonTransferID = function (canvasID) {
@@ -246,16 +245,10 @@ var create_data_row = function(parameter, value) {
 
 
     tr.appendChild(document.createElement("td"));
-	tr.appendChild(document.createElement("td"));
 
     tr.children[0].innerText = parameter;
     tr.children[1].innerText = value;
-	
-	var chart_button = document.createElement('button');
-	chart_button.setAttribute('id', 'button ' + parameter);
-	chart_button.innerText = 'Create';
-	tr.children[2].appendChild(chart_button);
-	//buttonTransferID(parameter);
+
 	
     return tr;
 }
@@ -345,19 +338,74 @@ var loadData = function(parameter_array) {
 					var prop = parameter_array[j];
 					var data_row = create_data_row(prop, global_data_object[prop].toFixed(2));
                 data_html_table.appendChild(data_row);
+					adddata(global_data_object[prop].toFixed(2), parameter_array[j]);
 				}
 				
-
             
         }
     }
-
+		clearInterval(interval_data);
     	interval_data = setInterval(function() {
         var drone_ip = document.getElementById('ip-header').innerHTML;
         xhttp.open("GET", "data/" + drone_ip, true);
         xhttp.send();
-    }, 3000);
+    },  parseInt(new_interval));
 }
+
+var setHidden = function (parameter) {
+	var canvas = document.getElementById(parameter);
+	
+	canvas.classList.toggle('hidden');
+	
+}
+
+var loadCharts = function (parameter_array) {
+	
+	var chart_list = document.getElementById('chart-list');
+	
+	for(var j = 0; j<parameter_array.length; j++) {
+
+			if (!document.getElementById(parameter_array[j])) {
+						var li = document.createElement('li');
+						var header = document.createElement('h4');
+						header.innerText = parameter_array[j];
+						li.appendChild(header);
+						li.style.position = "relative";
+						
+						
+				
+				var canvas = createCanvas(parameter_array[j]);
+		
+		chart_list.appendChild(li);
+		
+		var span = document.createElement('span');
+						span.className += ' minimalize-btn glyphicon glyphicon-chevron-up';
+						span.setAttribute('id', 'button ' + parameter_array[j]);
+						span.style.top = "0";
+						span.addEventListener("click", function () {
+	   this.classList.toggle('glyphicon-chevron-up');
+	   this.classList.toggle('glyphicon-chevron-down');
+	   
+
+    });
+	
+	span.setAttribute('onclick', 'setHidden("' + parameter_array[j] + '");');
+				li.appendChild(span);
+		li.appendChild(canvas);
+		createChart(parameter_array[j]);		
+			}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+};
 var loadParameters = function () {
 	 var xhttp;
 
@@ -369,7 +417,7 @@ var loadParameters = function () {
 	
 
     xhttp.onreadystatechange = function() {
-        var increment = 0;
+
         if (this.readyState == 4 && this.status == 200) {
 			
 			//navObject = JSON.parse(this.responseText);
@@ -399,17 +447,22 @@ var loadParameters = function () {
 			button.addEventListener('click', function () {
 
 	
-	var parameter_array = [];
-	
+
+		global_parameter_array = [];
 	for(var i = 0; i<parameter_html_list.children.length - 1 ; i++) {
 		
 		if(parameter_html_list.children[i].children[0].checked)
-		parameter_array.push(parameter_html_list.children[i].children[1].innerText);
+		global_parameter_array.push(parameter_html_list.children[i].children[1].innerText);
 		
 	}
 	
 	clearInterval(interval_data);
-	loadData(parameter_array);
+	
+
+	loadData(global_parameter_array);
+	
+	setTimeout(function() {	loadCharts(global_parameter_array);}, new_interval);
+
 		 });
 			
             //delete everything before update
@@ -419,6 +472,15 @@ var loadParameters = function () {
     }
 			 xhttp.open("GET", "data", true);
         xhttp.send();
+	
+}
+
+var newInterval = function (event){
+	var target = event.target;
+
+	new_interval = target.getAttribute('data-refresh');
+	loadData(global_parameter_array);
+		
 	
 }
 window.onload = function() {

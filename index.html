@@ -27,9 +27,23 @@
             <div class="data-table col-lg-offset-1 col-lg-4">
 				<div class="measurement-wrapper">
                 <h3 id="measurement">Measurement</h3> 
-				<div id="settings-button" class="btn-group" role="group" aria-label="...">
+			
+			<div id="refresh-button" class="btn-group" role="group" aria-label="...">
 				
-				<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+      <span class="caret"></span>
+    </button>
+	<ul class="dropdown-menu" id="refresh-list">
+	<li><a href="#" id="3sec" onclick="newInterval(event)" data-refresh="3000" >3 seconds</a></li>
+    <li><a href="#" id="5sec" onclick="newInterval(event)" data-refresh="5000">5 seconds</a></li>
+    <li><a href="#" id="10sec" onclick="newInterval(event)" data-refresh="10000">10 seconds</a></li>
+    <li><a href="#" id="15sec" onclick="newInterval(event)" data-refresh="15000">15 seconds</a></li>
+	</ul>
+	</div>
+			<div id="settings-button" class="btn-group" role="group" aria-label="...">
+				
+			<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
      <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
       <span class="caret"></span>
     </button>
@@ -46,7 +60,6 @@
                         <tr>
                             <th scope="col">Parameter</th>
                             <th scope="col">Value</th>
-							<th scope="col">Chart</th>
                         </tr>
                     </thead>
                     <tbody id="data-table">
@@ -55,7 +68,33 @@
                     </tbody>
                 </table>
             </div>
+			
+			<div class="data-chart col-lg-offset-1 col-lg-5">
+			
+			</div>
+			
         </div>
+		
+		 <div class="row bg-light">
+		 	<div class="data-chart col-lg-offset-1 col-lg-10">
+                <h3>Charts</h3> 
+
+			
+			<div class="chart-wrapper">
+			
+			<ul id="chart-list" class="chart-list">
+
+			
+			
+			
+			</ul>
+			
+			</div>
+			
+			
+			
+			</div>
+		 </div>
     </div>
 
 
