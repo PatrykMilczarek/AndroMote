@@ -4,94 +4,78 @@ configuration.ATcommand ='general:navdata_options';
 
 configuration.optionsPriority = {
 'demo' : {
-   mask : 1 << 0,
-   flyState           : '0',
-   controlState       : '0',
-   batteryPercentage  : '1',
-   theta              : '0', // [mdeg]
-   phi                : '0', // [mdeg]
-   psi                : '0', // [mdeg]
-   altitude           : '0', // [mm]
-   velocity           : '0', // [mm/s]
-   frameIndex  		  : '0',
-   detection  : {
-      camera: {
-        rotation    : '0',
-        translation : '0'
-      },
-      tagIndex: '0'
-    },
-   drone  : {
-      camera: {
-        rotation    : '0',
-        translation : '0'
-      }
-    },
-   rotation  : {
-      frontBack : '0',
-      pitch     : '0',
-      theta     : '0',
-      y         : '0',
-      leftRight : '1',
-      roll      : '0',
-      phi       : '0',
-      x         : '0',
-      clockwise : '0',
-      yaw       : '0',
-      psi       : '0',
-      z         : '0'
-    }
+	  mask : 1 << 0,
+	  flyState   : '1',
+      controlState	: '1',
+      batteryPercentage : '1', //[%]
+	  desc_demo_batteryPercentage : 'Baterry Percentage [%]',
+      rotation          : '0', //[mdeg]
+	  desc_demo_rotation : 'Rotation X - left/right tilt, Rotation Y - forward/backward tilt, Rotation Z - orientation,yaw		[mdeg]',
+      frontBackDegrees  : '0', //[mdeg]
+      leftRightDegrees  : '0', //[mdeg]
+      clockwiseDegrees  : '0', //[mdeg]
+      altitude          : '0', //[cm]
+	  desc_demo_altitude : 'Altitude[cm]',
+      altitudeMeters    : '0',
+      velocity          : '0', //[mm/s]
+	  desc_demo_velocity : 'Velocity [mm/s]',
+      xVelocity         : '0', //[mm/s]
+	  desc_demo_xVelocity : 'Linear x velocity [mm/s]',
+      yVelocity         : '0', //[mm/s]
+	  desc_demo_yVelocity : 'Linear y velocity [mm/s]',
+      zVelocity         : '0', //[mm/s]
+	  desc_demo_zVelocity : 'Linear z velocity [mm/s]',
+      frameIndex        : '0',
+	  desc_demo_frameIndex : 'Streamed frame index',
+      detection         : '0',
+      drone             : '0' 
+	 
 },
 
 'time': {
 	mask : 1 << 1,
-    time  : '0' //[ms]
+    time  : '1', //[s]
+	desc_time_time : 'Time [s]'
+
   },
 
 'rawMeasures':  {
-	mask : 1 << 2,
-    accelerometers  : {
-      x: '1', // [LSB]
-      y: '1', // [LSB]
-      z: '1' // [LSB]
-    },
-    gyroscopes  : {
-      x: '0', // [LSB]
-      y: '0', // [LSB]
-      z: '0'  // [LSB]
-    },
-    gyroscopes110  : {
-      x: '0', // [LSB]
-      y: '0' // [LSB]
-    },
-    batteryMilliVolt  : '1', //[mV]
-	usEcho : {
-      start       : '0', // [LSB]
-      end         : '0', // [LSB]
-      association : '0', // [LSB?]
-      distance    : '0'  // [LSB]
-    },
-    usCurve : {
-      time  : '0', // [LSB]
-      value : '0', // [LSB]
-      ref   : '0'  // [LSB]
-    },
-    echo  : {
-      flagIni : '0', // [LSB]
-      num     : '0', // [LSB]
-      sum     : '0' // [LSB]
-    },
-    altTemp   : '0' // [mm]
+	  mask : 1 << 2,
+      accelerometers    : '1', //[LSB]
+	  desc_rawMeasures_accelerometers : 'Angular velocity measured by a accelerometer [LSB]',
+      gyroscopes        : '1', //[LSB]
+	  desc_rawMeasures_gyroscopes : 'Angular velocity measured by a gyroscope [LSB]',
+      gyrometers        : '0', //[LSB]
+      gyroscopes110     : '0', //[LSB]
+      gyrometers110     : '0', 																	
+      batteryMilliVolt  : '0', //[mV]
+	  desc_rawMeasures_batteryMilliVolt : 'Battery voltage [mV]',
+      us                : '0', 
+      usDebutEcho       : '0',
+      usFinEcho         : '0',
+      usAssociationEcho : '0',
+      usDistanceEcho    : '0',
+      usCourbeTemps     : '0',
+      usCourbeValeur    : '0',
+      usCourbeRef       : '0',
+      echo              : '0',
+      flagEchoIni       : '0',
+      nbEcho            : '0',
+      sumEcho           : '0',
+      altTemp           : '0', //[mm]
+      altTempRaw        : '0'  //[mm]
 },
 
 'physMeasures': {
 	mask : 1 << 3,
     temperature: {
-        accelerometer: '1', // [K]
-        gyroscope: '1' //[LSB]
+        accelerometer: '0', // [K]
+		desc_physMeasures_temperature_accelerometer : 'Temperature measured by a accelerometer [K]',
+        gyroscope: '0', //[LSB]
+		desc_physMeasures_temperature_gyroscope : 'Temperature measured by a gyroscope [LSB]',
       },
       accelerometers : '0', // [mg]
-      gyroscopes     : '1', // [deg/s]
+      gyroscopes     : '0', // [deg/s]
       alim3V3        : '0', // [LSB]
       vrefEpson      : '0', // [LSB]
       vrefIDG        : '0' // [LSB]
@@ -125,7 +109,7 @@ configuration.optionsPriority = {
       thetaMod : '0',
       phiMod   : '0',
 
-      kVX      : '1',
+      kVX      : '0',
       kVY      : '0',
       kMode    : '0',
 
@@ -238,8 +222,9 @@ configuration.optionsPriority = {
         theta    : '0',
         phi      : '0',
         psi      : '0',
-        altitude : '0',
-        time     : '0'
+        altitude : '1', //[cm]
+		desc_vision_capture_altitude : 'Drone altitude [cm]',
+        time     : '0' //[ms]
       },
       bodyV         : '0', // [mm/s]
       delta         : {
@@ -300,7 +285,6 @@ configuration.optionsPriority = {
 	  mask : 1 << 18,
       version   : '0',
       dataFrame : '0'
-    
   },
 
   'videoStream':  {
@@ -308,7 +292,8 @@ configuration.optionsPriority = {
       quant          : '0',
       frame          : {
         size   : '0', // [bytes]
-        number : '1'
+		desc_videoStream_frame_size : 'Frame size [bytes]',
+        number : '0'
       },
       atcmd          : {
         sequence : '0',
@@ -339,9 +324,10 @@ configuration.optionsPriority = {
 	  mask : 1 << 21,
 	   up : '0', // [LSB] (UP?)
 	   ut : '0', // [LSB] (UT?)
-	   temperature :  '1', // [0_1C]
-	   pressure : '1', // [Pa]
-	  
+	   temperature :  '0', // [°C]
+	   desc_pressureRaw_temperature : "Drone's processor temperature [°C]",
+	   pressure : '0', // [Pa]
+	   desc_pressureRaw_pressure : 'Pressure [Pa]'
   },
 
   'magneto':  {
@@ -369,8 +355,10 @@ configuration.optionsPriority = {
  
    'windSpeed': {
 	mask : 1 << 23,
-	speed: '1', 
+	speed: '0', 
+	desc_windSpeed_speed : 'Estimated wind speed [m/s]',
     angle: '0', 
+	desc_windSpeed_angle : 'Estimated wind direction in North-East frame [rad] e.g. if wind_angle is pi/4, wind is from South-West to North-East',
     compensation: {
         theta: '0', 
         phi: '0'
@@ -404,7 +392,7 @@ configuration.optionsPriority = {
         uMultisinus: '0',
         gazAltitude: '0',
         flagMultisinus: '0',
-        flagMultisinusStart: '1'
+        flagMultisinusStart: '0'
       
     },
   },
@@ -414,19 +402,19 @@ configuration.optionsPriority = {
       hdvideoState : '0',
       storageFifo  : {
         nbPackets : '0',
-        size      : '1'
+        size      : '0'
       },
       usbkey       : {
         size      : '0',
         freespace : '0',
 		remainingTime: '0'
       },
-      frameNumber  : '1'
+      frameNumber  : '0'
   },
   
   'wifi':  {
 	mask : 1 << 26,
-    linkQuality: '1'
+    linkQuality: '0'
   }
   
 }

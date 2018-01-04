@@ -26,35 +26,32 @@
         <div class="row bg-light">
             <div class="data-table col-lg-offset-1 col-lg-4">
 				<div class="measurement-wrapper">
-                <h3 id="measurement">Measurement</h3> 
+					<h3 id="measurement">Measurement</h3> 
 			
-			<div id="refresh-button" class="btn-group" role="group" aria-label="...">
-				
-	<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-     <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-      <span class="caret"></span>
-    </button>
-	<ul class="dropdown-menu" id="refresh-list">
-	<li><a href="#" id="3sec" onclick="newInterval(event)" data-refresh="3000" >3 seconds</a></li>
-    <li><a href="#" id="5sec" onclick="newInterval(event)" data-refresh="5000">5 seconds</a></li>
-    <li><a href="#" id="10sec" onclick="newInterval(event)" data-refresh="10000">10 seconds</a></li>
-    <li><a href="#" id="15sec" onclick="newInterval(event)" data-refresh="15000">15 seconds</a></li>
-	</ul>
-	</div>
-			<div id="settings-button" class="btn-group" role="group" aria-label="...">
-				
-			<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-     <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-      <span class="caret"></span>
-    </button>
-	<ul class="dropdown-menu" id="parameter-list">
-
-	</ul>
-	</div>
+					<div id="refresh-button" class="btn-group" role="group" aria-label="...">
+							
+						<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" id="refresh-list">
+						<li><a href="#" id="3sec" onclick="newInterval(event)" data-refresh="3000" >3 seconds</a></li>
+							<li><a href="#" id="5sec" onclick="newInterval(event)" data-refresh="5000">5 seconds</a></li>
+							<li><a href="#" id="10sec" onclick="newInterval(event)" data-refresh="10000">10 seconds</a></li>
+							<li><a href="#" id="15sec" onclick="newInterval(event)" data-refresh="15000">15 seconds</a></li>
+						</ul>
+					</div>
+					<div id="settings-button" class="btn-group" role="group" aria-label="...">
+						<button  type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" id="parameter-list">
+						</ul>
+					</div>
+					<span id="minimalize-btn" class="glyphicon glyphicon-chevron-up minimalize-btn"></span>
 	
-	<span id="minimalize-btn" class="glyphicon glyphicon-chevron-up minimalize-btn"></span>
-	
-	</div>
+				</div>
                 <table id="measurement-table" class="table table-hover">
                     <thead>
                         <tr>
@@ -67,41 +64,25 @@
                         </tr>
                     </tbody>
                 </table>
-            </div>
-			
-			<div class="data-chart col-lg-offset-1 col-lg-5">
-			
-			</div>
-			
+            </div>	
         </div>
-		
 		 <div class="row bg-light">
 		 	<div class="data-chart col-lg-offset-1 col-lg-10">
                 <h3>Charts</h3> 
-
-			
-			<div class="chart-wrapper">
-			
-			<ul id="chart-list" class="chart-list">
-
-			
-			
-			
-			</ul>
-			
-			</div>
-			
-			
-			
+				<div class="chart-wrapper">
+					<ul id="chart-list" class="chart-list">
+					</ul>
+				</div>
 			</div>
 		 </div>
     </div>
-
-
+	
     <script src="/js/jquery-3.2.1.min.js"></script>
-      <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+	<script src="/js/Chart.bundle.js"></script>
     <script src="/js/index.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
+
+	
 </body>
 
 </html>

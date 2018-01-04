@@ -14,16 +14,17 @@ var data_reading = false;
 var router = express.Router();
 
 router.get('', function(req, res, next) {
-	res.sendFile(__dirname + index_file_path);
-});
-
-router.get('/data', function(req, res, next) {
-
+		
         if (!data_reading) {
             drone.startReadingData();
             data_reading = true;
         }
-		
+	res.sendFile(__dirname + index_file_path);
+
+});
+
+router.get('/data', function(req, res, next) {
+
         temp = drone.getData();
         res.write(JSON.stringify(temp));
         res.end();

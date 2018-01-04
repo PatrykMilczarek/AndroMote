@@ -1,12 +1,17 @@
 var global_ip_array = [];
 var global_parameter_array = [];
-////////////////////////////////////////////////////////////////////////////////
+var description_object = {};
 var lineChart = {};
 var global_data_object = {};
 var interval_data;
 var new_interval = 3000;
-var createChart = function (canvasID) {
-//console.log(canvasID);
+var start = new Date();
+var navObject = {};
+var optionName = ' ';
+
+
+
+var createChart = function (canvasID, labelY) {
 var canvas = document.getElementById(canvasID);
 var data = {
     labels: [],
@@ -45,6 +50,13 @@ var option = {
         display: true,
         labelString: 'Seconds'
            }
+     }],
+	    yAxes: [{
+        display: true,
+        scaleLabel: {
+        display: true,
+        labelString: labelY
+           }
      }]
 	}
 };
@@ -58,57 +70,45 @@ lineChart[canvasID]=myLineChart;
 		
 }
 
+
 function adddata(value,dataName){
   var startTime = start.getTime();
   var endTime = new Date().getTime();
   var time = endTime - startTime;
   var seconds = Math.floor(time / 1000);
-  
+
   lineChart[dataName].data.datasets[0].data.push(value);
- // lineChart[dataName].data.datasets[0].label = dataName;						
+  lineChart[dataName].data.datasets[0].label = dataName;						
   lineChart[dataName].data.labels.push(seconds);
   lineChart[dataName].update();
 
 }
 
 
-//--------------------------------------------------------------------------
-var start = new Date();
-var navObject = {};
-var optionName = ' ';
-//obiekt do przechowywania sciezek np. 'demo.batteryPercentage' kiedy dany checkbox (o id odpowiadajacym nazwie opcji) is checked
-var checkedOptions = {};
-
 var printOptions = function (navObject) {
 
-	for (var option in navObject) {	
-							
+	for (var option in navObject) {					
 		var tempOptions = navObject[option];
-				
-			if (typeof tempOptions === 'object' && Object.keys(tempOptions).length === 0){
-				delete tempOptions;
-				
-			}
+		
+		if (typeof tempOptions === 'object' && Object.keys(tempOptions).length === 0){
+			delete tempOptions;	
+		}
 					
-			else {
-				
-				optionName = ' ';
-				printChildren(tempOptions, option);
+		else {	
+			optionName = ' ';
+			printChildren(tempOptions, option);
 						
-			}		
+		}		
 	} 
-
 }
  
  
 
 var printChildren = function(tempOptions, option) {
 	
-	
+var section = option;
 
-	if (typeof tempOptions === 'object') {
-	
-	var section = option;
+	//if (typeof tempOptions === 'object') {
 	
 		for (var data in tempOptions) {
 			
@@ -122,79 +122,30 @@ var printChildren = function(tempOptions, option) {
 				if (optionName == ' ') optionName = '';
 				var parameter = section + ' ' + optionName + ' ' + data;
 				parameter = parameter.replace("  ", " ");
+				parameter = parameter.replace("  ", " ");
 				global_data_object[parameter] = tempOptions[data];
-				//element.appendChild(document.createTextNode(paremeter + ' 	' + tempOptions[data]));				
-				//document.getElementById('result').appendChild(element);
-				//console.log(tempOptions[data] + ' ' + data);
-				
-
-				
-					/*if (data === 'batteryMilliVolt' || data === 'accelerometer') {
-					
-						if(!document.getElementById(data)){
-						createCanvas(data);
-						
-						var x = document.createElement("INPUT");
-						x.setAttribute("type", "checkbox");
-						}
-						
-						if (document.getElementById('button'+ ' ' + data).getAttribute("disabled")) {
-						adddata(tempOptions[data],data);
-						}
-						
-					}*/
 			}		
 		}
-	}
+	//}
 	
-	else {
-		/*i++;
-		var element = document.createElement("div");
-		element.appendChild(document.createTextNode(tempOptions));
-		document.getElementById('result').appendChild(section + ' ' + element);
-		//console.log(tempOptions);
-		console.log(i);
-		adddata(tempOptions[data],i);*/
-		
-		global_data_object[section] = tempOptions[data];
-	}
+	//else {
+	//	console.log(tempOptions);
+	//	global_data_object[section] = tempOptions;
+	//}
+	
 }
-
-/*var checkedOptions = function () {
-
-//tu bedzie sprawdzanie, jezeli stworzony checkbox o id odpowiadajacym
-
-
-}*/
 
 var createCanvas = function (canvasID) {
-
 	var newCanvas = document.createElement("canvas");
-
-
 	newCanvas.setAttribute("id",canvasID);
-
-
-	//newButton.setAttribute("style","font-size:12px;background-color: #4CAF50");
-
+	
 	return newCanvas;
 }
-//funkcja do automatycznego tworzenia wykresow po przycisnieciu przycisku
-var buttonTransferID = function (canvasID) {
-	document.getElementById('button ' + canvasID).addEventListener('click', function () {
-		//createCanvas(canvasID);
-		//createChart(canvasID);
-	});
-}
 
-
-
-//////////////////////////////////////////////////////
 
 var create_row = function() {
     var tr = document.createElement("tr");
     var td = document.createElement("td");
-
     tr.appendChild(td);
 
     return tr;
@@ -205,7 +156,6 @@ var create_list_element = function() {
     var anchor = document.createElement("a");
 
     anchor.setAttribute('href', '#');
-
     li.appendChild(anchor);
 
     return li;
@@ -218,18 +168,17 @@ var update_ip_data_list = function (ip_array) {
 
     for (var i = 0; i < data_list.children.length; i++) {
       var li = data_list.children[i];
-
       li.children[0].innerText = ip_array[i];
 
       li.onclick = function () {
-
+		  var xhttp;
           ip_header.innerText = this.children[0].innerText;
-
-          var xhttp;
 
           if (window.XMLHttpRequest) {
               xhttp = new XMLHttpRequest();
-          } else {
+          } 
+		  
+		  else {
               xhttp = new ActiveXObject('Microsoft.XMLHTTP');
           }
 
@@ -242,192 +191,164 @@ var update_ip_data_list = function (ip_array) {
 
 var create_data_row = function(parameter, value) {
     var tr = create_row();
+	
 
-
+				
     tr.appendChild(document.createElement("td"));
-
     tr.children[0].innerText = parameter;
     tr.children[1].innerText = value;
-
 	
+		var prop = parameter;
+	prop = prop.replace(/ /g, "_");
+	if (description_object.hasOwnProperty('desc_'+ prop)) {
+		tr.children[0].setAttribute("data-tooltip", description_object['desc_'+ prop]);
+	}
     return tr;
 }
 
-var loadDronesIP = function(event) {
-    var xhttp;
-
-    if (window.XMLHttpRequest) {
-        xhttp = new XMLHttpRequest();
-    } else {
-        xhttp = new ActiveXObject('Microsoft.XMLHTTP');
-    }
-
-    xhttp.onreadystatechange = function() {
-
-
-        if (this.readyState == 4 && this.status == 200) {
-
-            var ip_html_list = document.getElementById('ip-list');
-            var ip_array = this.responseText.split(",");
-            var ip_object_length = Object.keys(ip_array).length;
-            var ip_table_length = ip_html_list.children.length;
-
-
-            if (JSON.stringify(global_ip_array) !== JSON.stringify(ip_array)) {
-
-                          if (ip_object_length >= ip_table_length) {
-
-                            for (var j = ip_table_length; j < ip_object_length ; j++) {
-                              var ip_list_element = create_list_element();
-                              ip_html_list.appendChild(ip_list_element);
-                            }
-
-                            update_ip_data_list(ip_array);
-
-
-                          } else if (ip_object_length < ip_table_length) {
-                            for (var k = ip_table_length; k > ip_object_length ; k--) {
-
-                              ip_html_list.removeChild(ip_html_list.children[k-1]);
-                            }
-                              update_ip_data_list(ip_array);
-                          }
-
-             document.getElementById('available-drones').style.color = "#7CFC00";
-            }
-
-            global_ip_array = ip_array;
-        }
-    }
-
-    setInterval(function() {
-        xhttp.open("GET", "ips", true);
-        xhttp.send();
-    }, 3000);
-}
 
 var loadData = function(parameter_array) {
     var xhttp;
 
     if (window.XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
-    } else {
+    } 
+	else {
         xhttp = new ActiveXObject('Microsoft.XMLHTTP');
     }
 	
 
     xhttp.onreadystatechange = function() {
         var increment = 0;
+		
         if (this.readyState == 4 && this.status == 200) {
-			
-			//navObject = JSON.parse(this.responseText);
-			
-
-            var data_html_table = document.getElementById('data-table');
-            // expect a JSON in the future, need to upgrade
-            var data_object = JSON.parse(this.responseText);
+			var data_html_table = document.getElementById('data-table');
+            
+			var response_object = JSON.parse(this.responseText);
+			var data_object = response_object["objectValues"];
+			description_object = response_object["objectDesc"];
 			
 			printOptions(data_object);
-            //delete everything before update
+            
             while (data_html_table.firstChild) {
                 data_html_table.removeChild(data_html_table.firstChild);
             }
 
-   
-				for(var j = 0; j<parameter_array.length; j++) {
-					var prop = parameter_array[j];
-					var data_row = create_data_row(prop, global_data_object[prop].toFixed(2));
-                data_html_table.appendChild(data_row);
-					adddata(global_data_object[prop].toFixed(2), parameter_array[j]);
+			for(var j = 0; j<parameter_array.length; j++) {
+				var prop = parameter_array[j];
+
+				
+				if (!isNaN(global_data_object[prop])) {
+				var data_row = create_data_row(prop, global_data_object[prop].toFixed(2));
+				data_html_table.appendChild(data_row);
+				adddata(global_data_object[prop].toFixed(2), parameter_array[j]);
 				}
+				else {
+					//console.log(global_data_object[prop]);
+				var data_row = create_data_row(prop, global_data_object[prop]);
+				data_html_table.appendChild(data_row);
+				//adddata(global_data_object[prop], parameter_array[j]);
+				}
+				
+
+					
+				
+			}
 				
             
         }
     }
-		clearInterval(interval_data);
-    	interval_data = setInterval(function() {
-        var drone_ip = document.getElementById('ip-header').innerHTML;
+		
+	clearInterval(interval_data);
+	        var drone_ip = document.getElementById('ip-header').innerHTML;
         xhttp.open("GET", "data/" + drone_ip, true);
         xhttp.send();
-    },  parseInt(new_interval));
+    interval_data = setInterval(function() {
+
+        xhttp.open("GET", "data/" + drone_ip, true);
+        xhttp.send();
+    },  
+	
+	parseInt(new_interval));
 }
 
 var setHidden = function (parameter) {
 	var canvas = document.getElementById(parameter);
-	
 	canvas.classList.toggle('hidden');
-	
 }
 
 var loadCharts = function (parameter_array) {
-	
 	var chart_list = document.getElementById('chart-list');
 	
 	for(var j = 0; j<parameter_array.length; j++) {
-
-			if (!document.getElementById(parameter_array[j])) {
-						var li = document.createElement('li');
-						var header = document.createElement('h4');
-						header.innerText = parameter_array[j];
-						li.appendChild(header);
-						li.style.position = "relative";
+			console.log(parameter_array[j]);
+		if (!document.getElementById(parameter_array[j]) && !(parameter_array[j] == "demo controlState" || parameter_array[j] == "demo flyState")) {										//instanceof Number???
+			
+			var li = document.createElement('li');
+			var header = document.createElement('h4');
+			header.innerText = parameter_array[j];
+			li.appendChild(header);
+			li.style.position = "relative";
 						
-						
-				
-				var canvas = createCanvas(parameter_array[j]);
+			var canvas = createCanvas(parameter_array[j]);
+			chart_list.appendChild(li);
 		
-		chart_list.appendChild(li);
-		
-		var span = document.createElement('span');
-						span.className += ' minimalize-btn glyphicon glyphicon-chevron-up';
-						span.setAttribute('id', 'button ' + parameter_array[j]);
-						span.style.top = "0";
-						span.addEventListener("click", function () {
-	   this.classList.toggle('glyphicon-chevron-up');
-	   this.classList.toggle('glyphicon-chevron-down');
-	   
-
-    });
+			var span = document.createElement('span');
+			span.className += ' minimalize-btn glyphicon glyphicon-chevron-up';
+			span.setAttribute('id', 'button ' + parameter_array[j]);
+			span.style.top = "0";
+			
+			span.addEventListener("click", function () {
+			   this.classList.toggle('glyphicon-chevron-up');
+			   this.classList.toggle('glyphicon-chevron-down');
+			});
 	
-	span.setAttribute('onclick', 'setHidden("' + parameter_array[j] + '");');
-				li.appendChild(span);
-		li.appendChild(canvas);
-		createChart(parameter_array[j]);		
+			span.setAttribute('onclick', 'setHidden("' + parameter_array[j] + '");');
+			li.appendChild(span);
+			li.appendChild(canvas);
+			
+			var parameter = parameter_array[j];
+			parameter = parameter.replace(" ", "_");
+			parameter = parameter.replace(" ", "_");
+			parameter = parameter.replace(" ", "_");
+			
+			if (description_object.hasOwnProperty('desc_'+parameter)){
+				console.log(description_object['desc_'+parameter]);
+				createChart(parameter_array[j],description_object['desc_'+ parameter]);
 			}
+			else {
+				var labelY = '';
+				createChart(parameter_array[j],labelY);
+			}		
+		}
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 };
+
+
 var loadParameters = function () {
 	 var xhttp;
 
     if (window.XMLHttpRequest) {
         xhttp = new XMLHttpRequest();
-    } else {
+    } 
+	else {
         xhttp = new ActiveXObject('Microsoft.XMLHTTP');
     }
 	
-
     xhttp.onreadystatechange = function() {
 
         if (this.readyState == 4 && this.status == 200) {
 			
-			//navObject = JSON.parse(this.responseText);
-			
-
             var parameter_html_list = document.getElementById('parameter-list');
-            // expect a JSON in the future, need to upgrade
-            var data_object = JSON.parse(this.responseText);
+            
+			var response_object = JSON.parse(this.responseText);
+            var data_object = response_object["objectValues"];
+			description_object = response_object["objectDesc"];
 			
 			printOptions(data_object);
+			
 			
 			for (var x in global_data_object) {
 				var li = document.createElement('li');
@@ -440,62 +361,104 @@ var loadParameters = function () {
 				parameter_html_list.appendChild(li);
 			}
 			
+			var button_check = document.createElement('button');
+			button_check.style.width = "50%";
+			button_check.innerText = "Check All";
+			parameter_html_list.appendChild(button_check);
+			
+			var button_uncheck = document.createElement('button');
+			button_uncheck.style.width = "50%";
+			button_uncheck.innerText = "Uncheck All";
+			parameter_html_list.appendChild(button_uncheck);
+			
 			var button = document.createElement('button');
 			button.setAttribute('id', 'startButton');
 			button.innerText = "Start";
 			parameter_html_list.appendChild(button);
-			button.addEventListener('click', function () {
-
-	
-
-		global_parameter_array = [];
-	for(var i = 0; i<parameter_html_list.children.length - 1 ; i++) {
-		
-		if(parameter_html_list.children[i].children[0].checked)
-		global_parameter_array.push(parameter_html_list.children[i].children[1].innerText);
-		
-	}
-	
-	clearInterval(interval_data);
-	
-
-	loadData(global_parameter_array);
-	
-	setTimeout(function() {	loadCharts(global_parameter_array);}, new_interval);
-
-		 });
 			
-            //delete everything before update
-           
+		
+			
+			button.addEventListener('click', function (event) {
+		
+				global_parameter_array = [];
+				for(var i = 0; i<parameter_html_list.children.length - 3 ; i++) {
+
+					if(parameter_html_list.children[i].children[0].checked)
+					global_parameter_array.push(parameter_html_list.children[i].children[1].innerText);
+					
+				}
+	
+				clearInterval(interval_data);
+
+				loadData(global_parameter_array);
+				loadCharts(global_parameter_array);
+				
+
+			});
+			
+			button_check.addEventListener('click', function (event) {
+				var parameter_html_list  = document.getElementById("parameter-list");
+						event.stopPropagation();
+				var target = event.target;
+				
+
+				
+								for(var i = 0; i<parameter_html_list.children.length - 3 ; i++) {
+
+					parameter_html_list.children[i].children[0].checked = true;
+				
+					
+				}
+
+			});
+			
+				button_uncheck.addEventListener('click', function (event) {
+				event.stopPropagation();
+				var parameter_html_list  = document.getElementById("parameter-list");
+				
+				var target = event.target;
+
+				
+				
+				for(var i = 0; i<parameter_html_list.children.length - 3 ; i++) {
+
+					parameter_html_list.children[i].children[0].checked = false;
+				
+					
+				}
+
+			});
+			
         }
 
     }
-			 xhttp.open("GET", "data", true);
+		xhttp.open("GET", "data", true);
         xhttp.send();
-	
 }
 
 var newInterval = function (event){
 	var target = event.target;
 
 	new_interval = target.getAttribute('data-refresh');
+	var parent = document.getElementById("refresh-list");
+	
+	for(var x of parent.children) {
+		x.children[0].classList.remove("active");
+	}
+	target.classList.add("active");
 	loadData(global_parameter_array);
-		
-	
+
 }
+
 window.onload = function() {
-	loadParameters();
-    //loadDronesIP();
-    //loadData();
-	   document.getElementById('minimalize-btn').addEventListener("click", function () {
-	   this.classList.toggle('glyphicon-chevron-up');
-	   this.classList.toggle('glyphicon-chevron-down');
-	   
-	   document.getElementById('measurement-table').classList.toggle('hidden');
-    });
-   // document.getElementById('available-drones').addEventListener("click", function () {
-   //   this.style.color = "white";
-    //});
 	
+	setTimeout(loadParameters, 3000);
 	
+	document.getElementById('minimalize-btn').addEventListener("click", function () {
+		this.classList.toggle('glyphicon-chevron-up');
+		this.classList.toggle('glyphicon-chevron-down');
+		   
+		document.getElementById('measurement-table').classList.toggle('hidden');
+	});
+
 }
